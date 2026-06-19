@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El Rincón del Asador</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --rojo:    #8B1A1A;
+      --oro:      #C8962E;
+      --carbón:  #1C1C1C;
+      --crema:   #FAF5EE;
+      --gris:    #555;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--crema);
+      color: var(--carbón);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(28,28,28,0.95);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 64px;
+    }
+    .logo {
+      color: var(--oro);
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    .logo span { color: #fff; font-weight: normal; }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+    nav ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    nav ul li a:hover { color: var(--oro); }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh;
+      background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80')
+        center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding: 20px;
+    }
+    #hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    #hero h1 span { color: var(--oro); }
+    #hero p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      max-width: 560px;
+      margin-bottom: 36px;
+      opacity: .9;
+      font-style: italic;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      background: var(--rojo);
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .9rem;
+      border-radius: 2px;
+      transition: background .2s, transform .2s;
+    }
+    .btn:hover { background: var(--oro); transform: translateY(-2px); }
+
+    /* ── SECCIONES COMUNES ── */
+    section { padding: 90px 40px; }
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-title h2 {
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--rojo);
+      margin-bottom: 10px;
+    }
+    .section-title .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--oro);
+      margin: 0 auto 16px;
+    }
+    .section-title p {
+      color: var(--gris);
+      font-style: italic;
+      font-size: 1.05rem;
+    }
+
+    /* ── NOSOTROS ── */
+    #nosotros {
+      background: #fff;
+    }
+    .nosotros-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    .nosotros-grid img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 8px 8px 0 var(--oro);
+    }
+    .nosotros-text h3 {
+      font-size: 1.6rem;
+      color: var(--rojo);
+      margin-bottom: 18px;
+    }
+    .nosotros-text p {
+      color: var(--gris);
+      line-height: 1.9;
+      margin-bottom: 14px;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--rojo);
+      color: #fff;
+      padding: 8px 20px;
+      font-size: .85rem;
+      letter-spacing: 1px;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    /* ── ESPECIALIDADES ── */
+    #especialidades { background: var(--crema); }
+    .platos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .plato-card {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .plato-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.14);
+    }
+    .plato-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .plato-info {
+      padding: 20px 22px;
+    }
+    .plato-info h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+      color: var(--carbón);
+    }
+    .plato-info p {
+      font-size: .9rem;
+      color: var(--gris);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .precio {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--rojo);
+    }
+
+    /* ── CARTA COMPLETA ── */
+    #carta { background: var(--carbón); color: #eee; }
+    #carta .section-title h2 { color: var(--oro); }
+    #carta .section-title p { color: #bbb; }
+    .carta-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .carta-categoria h3 {
+      color: var(--oro);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 1rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .carta-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+    .carta-item .nombre { font-size: .95rem; }
+    .carta-item .dots {
+      flex: 1;
+      border-bottom: 1px dotted #555;
+      margin: 0 8px;
+    }
+    .carta-item .precio-carta {
+      color: var(--oro);
+      font-size: .95rem;
+      white-space: nowrap;
+    }
+
+    /* ── GALERÍA ── */
+    #galeria { background: #fff; }
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 220px);
+      gap: 12px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .galeria-grid img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 3px;
+      transition: opacity .25s;
+    }
+    .galeria-grid img:hover { opacity: .85; }
+    .galeria-grid img:first-child {
+      grid-row: span 2;
+    }
+
+    /* ── RESERVAS ── */
+    #reservas { background: var(--crema); }
+    .reservas-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 50px;
+      border-radius: 4px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gris);
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 12px 14px;
+      font-size: .95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--rojo);
+    }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .btn-form {
+      width: 100%;
+      padding: 16px;
+      background: var(--rojo);
+      color: #fff;
+      border: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .95rem;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background .2s;
+    }
+    .btn-form:hover { background: var(--oro); }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--carbón); color: #eee; padding: 70px 40px; }
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contacto-item .icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+    .contacto-item h4 {
+      color: var(--oro);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .85rem;
+      margin-bottom: 10px;
+    }
+    .contacto-item p {
+      color: #aaa;
+      line-height: 1.8;
+      font-size: .95rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111;
+      color: #666;
+      text-align: center;
+      padding: 24px 20px;
+      font-size: .85rem;
+    }
+    footer span { color: var(--oro); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .nosotros-grid { grid-template-columns: 1fr; }
+      .galeria-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .galeria-grid img:first-child { grid-row: span 1; }
+      .form-row { grid-template-columns: 1fr; }
+      .reservas-wrap { padding: 30px 24px; }
+      section { padding: 70px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">El Rincón <span>del Asador</span></div>
+  <ul>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#especialidades">Especialidades</a></li>
+    <li><a href="#carta">Carta</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#reservas">Reservas</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <h1>El Rincón <span>del Asador</span></h1>
+  <p>Brasa, sabor y tradición desde 1987. Carne a la leña en el corazón de Castilla.</p>
+  <a href="#reservas" class="btn">Reserva tu mesa</a>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="section-title">
+    <h2>Nuestra Historia</h2>
+    <div class="divider"></div>
+    <p>Tres generaciones alrededor del fuego</p>
+  </div>
+  <div class="nosotros-grid">
+    <img
+      src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80"
+      alt="Interior del restaurante">
+    <div class="nosotros-text">
+      <h3>Familia Herrera, maestros asadores</h3>
+      <p>
+        Fundado en 1987 por Miguel Herrera, El Rincón del Asador nació de una
+        pasión simple: el respeto por la materia prima y el fuego lento de leña de encina.
+      </p>
+      <p>
+        Hoy, su hijo Carlos y su nieta Lucía mantienen viva esa llama. Cada pieza
+        se selecciona personalmente en las mejores explotaciones ganaderas de Castilla
+        y La Rioja, garantizando el sabor auténtico que nos ha hecho referencia en la región.
+      </p>
+      <p>
+        Nuestro horno de adobe, con más de 30 años de historia, es el alma de cada asado.
+        Aquí no hay atajos: solo tiempo, fuego y dedicación.
+      </p>
+      <span class="badge">+ de 35 años asando</span>
+    </div>
+  </div>
+</section>
+
+<!-- ESPECIALIDADES -->
+<section id="especialidades">
+  <div class="section-title">
+    <h2>Especialidades</h2>
+    <div class="divider"></div>
+    <p>Los platos que nos han dado fama</p>
+  </div>
+  <div class="platos-grid">
+    <div class="plato-card">
+      <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80" alt="Chuletón">
+      <div class="plato-info">
+        <h3>Chuletón de Buey a la Brasa</h3>
+        <p>Pieza mínima de 1 kg, maduración 45 días. Brasa de encina, sal en escamas y nada más.</p>
+        <span class="precio">28 € / 100g</span>
+      </div>
+    </div>
+    <div class="plato-card">
+      <img src="https://images.unsplash.com/photo-1606728035253-49e8a23146de?w=600&q=80" alt="Cochinillo">
+      <div class="plato-info">
+        <h3>Cochinillo Asado al Horno de Adobe</h3>
+        <p>Lechón de 21 días de Segovia. Piel crujiente, interior jugoso. Servido con la paleta.</p>
+        <span class="precio">26 € / persona</span>
+      </div>
+    </div>
+    <div class="plato-card">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Cordero">
+      <div class="plato-info">
+        <h3>Lechazo de Castilla IGP</h3>
+        <p>Cordero lechal con Indicación Geográfica Protegida. Asado en cazuela de barro con agua y sal.</p>
+        <span class="precio">24 € / persona</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTA COMPLETA -->
+<section id="carta">
+  <div class="section-title">
+    <h2>Nuestra Carta</h2>
+    <div class="divider"></div>
+    <p>Selección de temporada · Precios sin IVA</p>
+  </div>
+  <div class="carta-cols">
+
+    <div class="carta-categoria">
+      <h3>🥗 Entrantes</h3>
+      <div class="carta-item"><span class="nombre">Ensalada de temporada</span><span class="dots"></span><span class="precio-carta">9 €</span></div>
+      <div class="carta-item"><span class="nombre">Pimientos del piquillo asados</span><span class="dots"></span><span class="precio-carta">11 €</span></div>
+      <div class="carta-item"><span class="nombre">Morcilla de Burgos a la brasa</span><span class="dots"></span><span class="precio-carta">12 €</span></div>
+      <div class="carta-item"><span class="nombre">Jamón ibérico de bellota</span><span class="dots"></span><span class="precio-carta">22 €</span></div>
+      <div class="carta-item"><span class="nombre">Tabla de quesos castellanos</span><span class="dots"></span><span class="precio-carta">14 €</span></div>
+    </div>
+
+    <div class="carta-categoria">
+      <h3>🔥 Asados</h3>
+      <div class="carta-item"><span class="nombre">Chuletón de buey (100g)</span><span class="dots"></span><span class="precio-carta">28 €</span></div>
+      <div class="carta-item"><span class="nombre">Entrecot de ternera</span><span class="dots"></span><span class="precio-carta">26 €</span></div>
+      <div class="carta-item"><span class="nombre">Cochinillo asado</span><span class="dots"></span><span class="precio-carta">26 €</span></div>
+      <div class="carta-item"><span class="nombre">Lechazo IGP (medio)</span><span class="dots"></span><span class="precio-carta">24 €</span></div>
+      <div class="carta-item"><span class="nombre">Costilla de cerdo ibérico</span><span class="dots"></span><span class="precio-carta">18 €</span></div>
+    </div>
+
+    <div class="carta-categoria">
+      <h3>🍷 Vinos</h3>
+      <div class="carta-item"><span class="nombre">Ribera del Duero Crianza</span><span class="dots"></span><span class="precio-carta">22 €</span></div>
+      <div class="carta-item"><span class="nombre">Rioja Reserva</span><span class="dots"></span><span class="precio-carta">28 €</span></div>
+      <div class="carta-item"><span class="nombre">Rueda Verdejo (blanco)</span><span class="dots"></span><span class="precio-carta">18 €</span></div>
+      <div class="carta-item"><span class="nombre">Vino de la casa (jarra)</span><span class="dots"></span><span class="precio-carta">8 €</span></div>
+    </div>
+
+    <div class="carta-categoria">
+      <h3>🍮 Postres</h3>
+      <div class="carta-item"><span class="nombre">Flan de huevo casero</span><span class="dots"></span><span class="precio-carta">6 €</span></div>
+      <div class="carta-item"><span class="nombre">Arroz con leche</span><span class="dots"></span><span class="precio-carta">6 €</span></div>
+      <div class="carta-item"><span class="nombre">Tarta de queso manchego</span><span class="dots"></span><span class="precio-carta">7 €</span></div>
+      <div class="carta-item"><span class="nombre">Tocino de cielo</span><span class="dots"></span><span class="precio-carta">6 €</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section id="galeria">
+  <div class="section-title">
+    <h2>Galería</h2>
+    <div class="divider"></div>
+    <p>Momentos y sabores de El Rincón</p>
+  </div>
+  <div class="galeria-grid">
+    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="Ambiente">
+    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Brasa">
+    <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80" alt="Carne">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Plato">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Mesa">
+  </div>
+</section>
+
+<!-- RESERVAS -->
+<section id="reservas">
+  <div class="section-title">
+    <h2>Reservas</h2>
+    <div class="divider"></div>
+    <p>Reserva tu mesa y asegura tu asado favorito</p>
+  </div>
+  <div class="reservas-wrap">
+    <!-- MODIFICADO: Ahora apunta a Formspree con tu correo -->
+    <form action="https://formsubmit.co/pemapeast@gmail.com" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" name="Nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" name="Teléfono" placeholder="612 345 678" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha</label>
+          <input type="date" name="Fecha" required>
+        </div>
+        <div class="form-group">
+          <label>Hora</label>
+          <select name="Hora" required>
+            <option value="">Selecciona hora</option>
+            <option>13:00</option>
+            <option>13:30</option>
+            <option>14:00</option>
+            <option>14:30</option>
+            <option>15:00</option>
+            <option>20:30</option>
+            <option>21:00</option>
+            <option>21:30</option>
+            <option>22:00</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Número de comensales</label>
+        <select name="Comensales" required>
+          <option value="">¿Cuántas personas?</option>
+          <option>1 persona</option>
+          <option>2 personas</option>
+          <option>3-4 personas</option>
+          <option>5-6 personas</option>
+          <option>7-10 personas</option>
+          <option>Más de 10 (grupo)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Peticiones especiales</label>
+        <textarea name="Notas" placeholder="Alergias, celebraciones, preferencias de mesa…"></textarea>
+      </div>
+      <button type="submit" class="btn-form">Solicitar reserva</button>
+    </form>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="contacto-grid">
+    <div class="contacto-item">
+      <div class="icon">📍</div>
+      <h4>Dirección</h4>
+      <p>Calle del Fuego, 14<br>09004 Burgos, España</p>
+    </div>
+    <div class="contacto-item">
+      <div class="icon">📞</div>
+      <h4>Teléfono</h4>
+      <p>947 23 14 88<br>620 471 309</p>
+    </div>
+    <div class="contacto-item">
+      <div class="icon">🕐</div>
+      <h4>Horario</h4>
+      <p>Mar–Vie: 13:00–16:00 · 20:30–23:30<br>Sáb–Dom: 12:30–16:30 · 20:00–23:30<br>Lunes cerrado</p>
+    </div>
+    <div class="contacto-item">
+      <div class="icon">✉️</div>
+      <h4>Email</h4>
+      <p>reservas@elrincondelasador.es<br>info@elrincondelasador.es</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 <span>El Rincón del Asador</span> · Calle del Fuego 14, Burgos · Todos los derechos reservados</p>
+</footer>
+
+<script>
+  // Scroll suave
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Nav activo al hacer scroll
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY + 80;
+    sections.forEach(s => {
+      const link = document.querySelector(`nav a[href="#${s.id}"]`);
+      if (!link) return;
+      link.style.color = (y >= s.offsetTop && y < s.offsetTop + s.offsetHeight)
+        ? 'var(--oro)' : '';
+    });
+  });
+</script>
+</body>
+</html>
